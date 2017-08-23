@@ -1,1 +1,0 @@
-cmd_/home/pi/ChuckTheNun/nunchuk.ko := ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/pi/ChuckTheNun/nunchuk.ko /home/pi/ChuckTheNun/nunchuk.o /home/pi/ChuckTheNun/nunchuk.mod.o ;  true
