@@ -35,6 +35,12 @@ static struct file_operations fops = {
 
 static int nunchuk_handshake(void)
 {
+    unsigned char* first_pair = { 0x52, 0xF0, 0x55};
+    unsigned char* second_pair = { 0x52, 0xFB, 0x00};
+
+    i2c_master_send(nunchuk_client, first_pair, sizeof(first_pair));
+    i2c_master_send(nunchuk_client, second_pair, sizeof(second_pair));
+    
     return RET_SUCCESS;
 }
 
@@ -124,5 +130,5 @@ module_init(init_nunchuk_module);
 module_exit(deinit_nunchuk_module);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Stefan Savic <stefan.savic@rt-rk.com>");
+MODULE_AUTHOR("Nemanja Djokic <djokic_nemanja@hotmail.com>");
 MODULE_DESCRIPTION("This is a simple nunchuk controller driver.");
