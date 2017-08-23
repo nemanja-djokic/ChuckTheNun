@@ -139,7 +139,7 @@ static ssize_t nunchuk_read(struct file *filp, char *buffer, size_t length,
 		modified_buffer[3] = (read_buffer[5] & 0x1);
 		for(i = 0; i<4; i++){
 			put_user(modified_buffer[i], buffer+i);
-			printk("put %c in buffer", read_buffer[i]);
+			printk("put %c in buffer", modified_buffer[i]);
 		}
 		return 4;
 	}else{
