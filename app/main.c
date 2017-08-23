@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "device.h"
-#include "../kmod/chardev.h"
 
 #define ARRAY_SIZE(array)   (sizeof(array)/sizeof(array[0]))
 
@@ -30,31 +30,31 @@ int32_t main(void)
     {
         return RET_ERR;
     }
-    
-    if (read_device(fd, buffer, 4) == RET_ERR)
-    {
-        return RET_ERR;
-    }
+   
 
     while(1){
+		usleep(500000);
+		if(read_device(fd, buffer, 4)==RET_ERR){
+			return RET_ERR;
+		}
 		printf("x axis value: %d\n", buffer[0]);
-    printf("y axis value: %d\n", buffer[1]);
-    if(buffer[2]){
-		printf("c pressed\n");
-	}else{
-		printf("c not pressed\n");
-	}
-    if(buffer[3]){
-		printf("z pressed\n");
-	}else{
-		printf("z not pressed\n");
-	}
+    		printf("y axis value: %d\n", buffer[1]);
+    		if(buffer[2]){
+			printf("c pressed\n");
+		}else{
+			printf("c not pressed\n");
+		}
+    		if(buffer[3]){
+			printf("z pressed\n");
+		}else{
+			printf("z not pressed\n");
+		}
+}
     
     if (close_device(fd) == RET_ERR)
     {
         return RET_ERR;
     }
-	}
     
     return RET_OK;
 }
