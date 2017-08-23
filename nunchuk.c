@@ -3,6 +3,7 @@
 #include <linux/module.h>
 #include <linux/i2c.h>
 #include <linux/fs.h>
+#include <linux/delay.h>
 #include <asm/uaccess.h>
 
 #include "nunchuk.h"
@@ -35,10 +36,11 @@ static struct file_operations fops = {
 
 static int nunchuk_handshake(void)
 {
-    unsigned char* first_pair = { 0x52, 0xF0, 0x55};
-    unsigned char* second_pair = { 0x52, 0xFB, 0x00};
+    unsigned char first_pair[] = { 0xF0, 0x55};
+    unsigned char second_pair[] = { 0xFB, 0x00};
 
     i2c_master_send(nunchuk_client, first_pair, sizeof(first_pair));
+    udelay(1);
     i2c_master_send(nunchuk_client, second_pair, sizeof(second_pair));
     
     return RET_SUCCESS;

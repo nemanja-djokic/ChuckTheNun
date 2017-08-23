@@ -858,6 +858,9 @@ deps_/home/shitpostshack/Downloads/vjezba8/nunchuk-kmod/ChuckTheNun/nunchuk.o :=
   include/linux/property.h \
   include/linux/fwnode.h \
   include/uapi/linux/i2c.h \
+  include/linux/delay.h \
+  arch/x86/include/asm/delay.h \
+  include/asm-generic/delay.h \
   arch/x86/include/asm/uaccess.h \
     $(wildcard include/config/x86/intel/usercopy.h) \
   include/linux/kasan-checks.h \
