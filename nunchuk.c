@@ -49,6 +49,10 @@ static int nunchuk_handshake(void)
 static int nunchuk_read_registers(struct i2c_client *client, u8 *buf,
 								  int buf_size)
 {
+	unsigned char buff_to_send[] = { 0x00 };
+	i2c_master_send(nunchuk_client, buff_to_send, 1);
+	mdelay(10);
+	i2c_master_recv(nunchuk_client, buf, buf_size);
 	return RET_SUCCESS;
 }
 
@@ -125,7 +129,22 @@ static int nunchuk_release(struct inode *inode, struct file *file)
 static ssize_t nunchuk_read(struct file *filp, char *buffer, size_t length, 
                            loff_t * offset)
 {
-    return length;
+	unsigned char read_buffer[6];
+	if(nunchuk_read_registers(nunchuk_client, read_buffer, 6) == RET_SUCCESS){
+		int i = 0;
+		unsigned char modified_buffer[4];
+		modified_buffer[0] = read_buffer[0];
+		modified_buffer[1] = read_buffer[1];
+		modified_buffer[2] = (read_buffer[5] & 0x2);
+		modified_buffer[3] = (read_buffer[5] & 0x1);
+		for(i = 0; i<4; i++){
+			put_user(modified_buffer[i], buffer+i);
+			printk("put %c in buffer", read_buffer[i]);
+		}
+		return 4;
+	}else{
+		return 0;
+	}
 }
 
 module_init(init_nunchuk_module);
