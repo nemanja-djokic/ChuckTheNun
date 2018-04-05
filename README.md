@@ -1,2 +1,2 @@
 # ChuckTheNun
-Chinese knockoff Wii Nunchuck controller driver implemented as a linux kernel module.
+Linux driver for a motion controller written in C using i2c connection
